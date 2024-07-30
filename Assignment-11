@@ -92,15 +92,12 @@ public class Main {
         System.out.println("Enter a string: ");
         String input = "Welcome to Saveetha university"; // Using a predefined string as example
 
-        // Replace a word
         String replacedString = input.replace("Saveetha", "OpenAI");
         System.out.println("Replaced String: " + replacedString);
 
-        // Find length
         int length = input.length();
         System.out.println("Length of String: " + length);
 
-        // Uppercase conversion
         String upperCaseString = input.toUpperCase();
         System.out.println("Uppercase String: " + upperCaseString);
     }
