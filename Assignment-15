@@ -1,0 +1,104 @@
+1.Count Possible Non-Empty Sequences from Tiles:
+import java.util.HashSet;
+
+public class Solution {
+    public int numTilePossibilities(String tiles) {
+        HashSet<String> set = new HashSet<>();
+        boolean[] used = new boolean[tiles.length()];
+        backtrack(tiles, used, new StringBuilder(), set);
+        return set.size();
+    }
+
+    private void backtrack(String tiles, boolean[] used, StringBuilder sb, HashSet<String> set) {
+        for (int i = 0; i < tiles.length(); i++) {
+            if (used[i] || (i > 0 && tiles.charAt(i) == tiles.charAt(i - 1) && !used[i - 1])) {
+                continue;
+            }
+            used[i] = true;
+            sb.append(tiles.charAt(i));
+            set.add(sb.toString());
+            backtrack(tiles, used, sb, set);
+            sb.deleteCharAt(sb.length() - 1);
+            used[i] = false;
+        }
+    }
+}
+2.Copy Data from One File to Another:
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class FileCopy {
+    public static void main(String[] args) {
+        try (FileInputStream fis = new FileInputStream("source.txt");
+             FileOutputStream fos = new FileOutputStream("destination.txt")) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+3.FileReader and FileWriter Example:
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileReaderWriterExample {
+    public static void main(String[] args) {
+        try (FileReader fr = new FileReader("source.txt");
+             FileWriter fw = new FileWriter("destination.txt")) {
+            int ch;
+            while ((ch = fr.read()) != -1) {
+                fw.write(ch);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+4.Read File Using BufferedReader:
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class BufferedReaderExample {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("source.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+5.Count Characters, Words, and Lines in a File:
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileStats {
+    public static void main(String[] args) {
+        int charCount = 0, wordCount = 0, lineCount = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader("source.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lineCount++;
+                charCount += line.length();
+                wordCount += line.split("\\s+").length;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Characters: " + charCount);
+        System.out.println("Words: " + wordCount);
+        System.out.println("Lines: " + lineCount);
+    }
+}
