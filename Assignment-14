@@ -1,0 +1,120 @@
+1.Product of Two Numbers as Strings:
+public class Solution {
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) return "0";
+
+        int len1 = num1.length(), len2 = num2.length();
+        int[] result = new int[len1 + len2];
+        
+        for (int i = len1 - 1; i >= 0; i--) {
+            for (int j = len2 - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = mul + result[i + j + 1];
+                result[i + j + 1] = sum % 10;
+                result[i + j] += sum / 10;
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for (int num : result) {
+            if (!(sb.length() == 0 && num == 0)) sb.append(num);
+        }
+        
+        return sb.toString();
+    }
+}
+2.Power Function Implementation:
+public class Solution {
+    public double myPow(double x, int n) {
+        if (n == 0) return 1;
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+        double result = 1;
+        while (n > 0) {
+            if (n % 2 == 1) result *= x;
+            x *= x;
+            n /= 2;
+        }
+        return result;
+    }
+}
+3. Maximum Subarray Sum:
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum = nums[0], currentSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
+}
+4. Singleton Pattern with Exception Handling:
+public class Singleton {
+    private static Singleton instance = null;
+
+    private Singleton() {
+        if (instance != null) {
+            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+        }
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+5.Exam Room Simulation:
+import java.util.TreeMap;
+
+public class ExamRoom {
+    private TreeMap<Integer, Integer> seats;
+    private int n;
+
+    public ExamRoom(int n) {
+        this.n = n;
+        this.seats = new TreeMap<>();
+    }
+
+    public int seat() {
+        if (seats.isEmpty()) {
+            seats.put(0, n - 1);
+            return 0;
+        }
+        
+        int maxDistance = seats.firstKey();
+        int seat = 0;
+
+        for (int start : seats.keySet()) {
+            int end = seats.get(start);
+            int distance = (end - start) / 2;
+            if (distance > maxDistance) {
+                maxDistance = distance;
+                seat = start + distance;
+            }
+        }
+
+        seats.put(seat, seat);
+        return seat;
+    }
+
+    public void leave(int p) {
+        Integer start = seats.floorKey(p);
+        Integer end = seats.ceilingKey(p);
+
+        if (start != null && end != null) {
+            seats.put(start, end);
+            seats.remove(p);
+        } else if (start != null) {
+            seats.put(start, seats.get(start));
+            seats.remove(p);
+        } else if (end != null) {
+            seats.put(end, end);
+            seats.remove(p);
+        }
+    }
+}
